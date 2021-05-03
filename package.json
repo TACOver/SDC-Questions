@@ -1,0 +1,20 @@
+{
+  "name": "sdc-questions",
+  "version": "1.0.0",
+  "description": "Backend service for question API",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TACOver/SDC-Questions.git"
+  },
+  "author": "Kim Schaefer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TACOver/SDC-Questions/issues"
+  },
+  "homepage": "https://github.com/TACOver/SDC-Questions#readme"
+}
