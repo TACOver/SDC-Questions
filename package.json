@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/TACOver/SDC-Questions/issues"
   },
-  "homepage": "https://github.com/TACOver/SDC-Questions#readme"
+  "homepage": "https://github.com/TACOver/SDC-Questions#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.7"
+  }
 }
