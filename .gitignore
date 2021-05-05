@@ -1,0 +1,7 @@
+# NODE FILES
+node_modules/
+
+# CSV FILES
+answers_photos.CSV
+answers.CSV
+questions.CSV
