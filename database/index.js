@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const questions = require('./questions.csv');
 
 mongoose.connect('mongodb://localhost/qaSchema', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
