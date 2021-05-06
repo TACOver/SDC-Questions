@@ -53,8 +53,6 @@ const addQuestion = (data, callback) => {
       console.log('Question successfully added to db');
     }
   });
-})
-  };
 };
 
 const formatAnswer = (answer) => {
@@ -81,8 +79,6 @@ const addAnswer = (data, callback) => {
       console.log('Answer successfully added to db');
     }
   });
-})
-  };
 };
 
 module.exports = { getAllQuestions, getAllAnswers, addQuestion, formatQuestion, addAnswer, formatAnswer };
