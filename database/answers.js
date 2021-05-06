@@ -9,7 +9,7 @@ const answers = new mongoose.Schema({
   answerer_email: String,
   reported: Boolean,
   helpfulness: Number,
-});
+}, {collection: "answers"});
 
 const Answer = mongoose.model('Answer', answers);
 
