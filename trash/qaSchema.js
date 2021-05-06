@@ -2,18 +2,14 @@ const mongoose = require('mongoose');
 
 const qaSchema = new mongoose.Schema({
   {
-    product_id: {
-      type: Number,
-      unique: true
-    },
-    questions: {
-      type: Array,
-      items: [
-        {
+
           question_id: {
             type: Number,
             unique: true,
           },
+          product_id: {
+            type: Number,
+          }
           question_body: {
             type: String,
             required: true,
