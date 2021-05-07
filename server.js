@@ -32,15 +32,15 @@ app.get('/qa/questions', (req, res) => {
     })
   }
 
-  // This route should send back all the answers for a given question_id
-  if (question_id) {
-    queries.getAllAnswers(question_id, count, (err, data) => {
-      if (err) {
-        console.log('ERROR retrieving all answers from db ', err)
-      } else {
-        console.log('GET req successful for answers ', data);
-        res.send(data);
-      }
-    })
-  }
+  // // This route should send back all the answers for a given question_id
+  // if (typeof question_id === 'number') {
+  //   queries.getAllAnswers(question_id, count, (err, data) => {
+  //     if (err) {
+  //       console.log('ERROR retrieving all answers from db ', err)
+  //     } else {
+  //       console.log('GET req successful for answers ', data);
+  //       res.send(data);
+  //     }
+  //   })
+  // }
 });

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Answer = require('./answers.js');
 const Question = require('./questions.js');
 const Photo = require('./photos.js');
+const Result = require('./questionResults.js');
 
 mongoose.connect('mongodb://localhost/qaSchema', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -12,8 +13,8 @@ mongoose.connect('mongodb://localhost/qaSchema', { useNewUrlParser: true, useUni
   });
 
 const getAllQuestions = (product_id, count, callback) => {
-  Question.find({ "product_id": product_id })
-    .sot({ "repoted": false })
+  Result.find({ "product_id": product_id })
+    .sort({ "repoted": false })
     .sort({ "helpfulness": -1 })
     .limit(Number(count))
     .exec(callback);
