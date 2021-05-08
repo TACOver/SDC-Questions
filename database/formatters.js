@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const questionsForClient = (data) => {
   const productInfo = {}
   productInfo.product_id = data[0].product_id;
@@ -17,30 +19,33 @@ const questionsForClient = (data) => {
   return productInfo;
 };
 
-const questionForDb = (question) => {
+const questionForDb = (body, name, email, product_id, id) => {
   return {
-    _id,
-    product_id: question.product_id,
-    body: question.body,
-    date: Date.now(),
-    answerer_name: question.name,
-    asker_email: question.email,
-    reported: question.reported,
-    helpfulness: question.helpfulness
+    "_id": Number(id),
+    "product_id": product_id,
+    "body": body,
+    "date": Date.now(),
+    "asker_name": name,
+    "asker_email": email,
+    "reported": false,
+    "helpfulness": 0,
+    "answers": []
   }
 };
 
-const answerForDb = (answer) => {
-  return {
-    _id,
-    question_: answer.product_id,
-    body: answer.body,
-    date: Date.now(),
-    answerer_name: answer.name,
-    answerer_email: answer.email,
-    reported: answer.reported,
-    helpfulness: answer.helpfulness
-  }
+const answerForDb = (body, name, email, question_id, id) => {
+  const result = {
+    "_id": Number(id),
+    "answer_photos": [],
+    "question_id": question_id,
+    "body": body,
+    "date": Date.now(),
+    "answerer_name": name,
+    "answerer_email": email,
+    "reported": false,
+    "helpful": 0
+  };
+  return result;
 };
 
 
