@@ -1,6 +1,7 @@
 const express = require('express');
 const queries = require('./database/queries.js');
 const app = express();
+const format = require('./database/formatters.js');
 
 let port = process.env.PORT;
 if (port == null || port == "") {
@@ -14,33 +15,57 @@ app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
 
+
+// SENDS BACK ALL QA DATA FOR A GIVEN PRODUCT_ID AND COUNT ////////
 app.get('/qa/questions', (req, res) => {
   const product_id = req.query.product_id;
-  const question_id = req.params;
   const count = req.query.count;
-  console.log('Product_id is ', product_id, ' count is ', count, ' and question_id is ', question_id);
 
-  // This route should send back all the questions for a given product_id
-  if (product_id) {
-    queries.getAllQuestions(product_id, count, (err, data) => {
-      if (err) {
-        console.log('ERROR retrieving all questions from db ', err);
-      } else {
-        console.log('GET req successful for questions', data);
-        res.send(data);
-      }
-    })
-  }
+  queries.getQuestions(product_id, count, (err, data) => {
+    if (err) {
+      console.log('ERROR retrieving questions from db ', err);
+    } else {
+      console.log('GET req successful for questions');
+      const formatted = format.questionsForClient(data);
+      res.send(formatted);
+    }
+  })
 
-  // // This route should send back all the answers for a given question_id
-  // if (typeof question_id === 'number') {
-  //   queries.getAllAnswers(question_id, count, (err, data) => {
-  //     if (err) {
-  //       console.log('ERROR retrieving all answers from db ', err)
-  //     } else {
-  //       console.log('GET req successful for answers ', data);
-  //       res.send(data);
-  //     }
-  //   })
-  // }
+});
+
+
+// UPDATES A QUESTION AS REPORTED ////////////////////////////
+app.put('/qa/questions/:question_id/report', (req, res) => {
+  const question_id = Number(req.params.question_id);
+
+  queries.reportQuestion(question_id, (err, data) => {
+    if (err) {
+      console.log('ERROR reporting a question ', err);
+    } else {
+      console.log('PUT req successful to report a question');
+      res.send(`Question: ${question_id} has been reported`);
+    }
+  })
+});
+
+
+// UPDATES A QUESTION AS HELPFUL ////////////////////////////
+app.put('/qa/questions/:question_id/helpful', (req, res) => {
+  const question_id = Number(req.params.question_id);
+
+  queries.getQHelpfulness(question_id, (err, data) => {
+    if (err) {
+      console.log('ERROR retrieving helpfulness info ', err)
+    } else {
+      const helpfulness = data.helpfulness;
+      queries.helpQuestion(question_id, helpfulness, (err, data) => {
+        if (err) {
+          console.log('ERROR updating a question as helpful', err);
+        } else {
+          console.log('PUT req successful to update a question as helpful');
+          res.send(`Question: ${question_id} has been updated`);
+        }
+      })
+    }
+  })
 });

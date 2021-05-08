@@ -12,9 +12,9 @@ mongoose.connect('mongodb://localhost/qaSchema', { useNewUrlParser: true, useUni
     console.log('Mongoose error');
   });
 
-const getAllQuestions = (product_id, count, callback) => {
+const getQuestions = (product_id, count, callback) => {
   Result.find({ "product_id": product_id })
-    .sort({ "repoted": false })
+    .sort({ "reported": false })
     .sort({ "helpfulness": -1 })
     .limit(Number(count))
     .exec(callback);
@@ -22,25 +22,19 @@ const getAllQuestions = (product_id, count, callback) => {
   console.log('completed getAllQuestions query');
 };
 
-const getAllAnswers = (question_id, count, callback) => {
-  Answer.find({ "question_id": question_id })
-    .sort({ "reported": false })
-    .sort({ "helpfulness": -1 })
-    .limit(Number(count))
+const reportQuestion = (question_id, callback) => {
+  Result.updateOne( { "_id": question_id }, { "reported": true })
     .exec(callback);
 };
 
-const formatQuestion = (question) => {
-  return {
-    _id,
-    product_id: question.product_id,
-    body: question.body,
-    date: Date.now(),
-    answerer_name: question.name,
-    asker_email: question.email,
-    reported: question.reported,
-    helpfulness: question.helpfulness
-  }
+const getQHelpfulness = (question_id, callback) => {
+  Result.find({ "_id": question_id })
+    .exec(callback);
+}
+
+const helpQuestion = (question_id, helpfulness, callback) => {
+  Result.updateOne( { "_id": question_id }, { "helpfulness":  helpfulness})
+    .exec(callback);
 };
 
 const addQuestion = (data, callback) => {
@@ -56,19 +50,6 @@ const addQuestion = (data, callback) => {
   });
 };
 
-const formatAnswer = (answer) => {
-  return {
-    _id,
-    question_: answer.product_id,
-    body: answer.body,
-    date: Date.now(),
-    answerer_name: answer.name,
-    answerer_email: answer.email,
-    reported: answer.reported,
-    helpfulness: answer.helpfulness
-  }
-};
-
 const addAnswer = (data, callback) => {
   let formatted = formatAnswer(data)
   const answerToSave = new Answer(formatted);
@@ -82,4 +63,4 @@ const addAnswer = (data, callback) => {
   });
 };
 
-module.exports = { getAllQuestions, getAllAnswers, addQuestion, formatQuestion, addAnswer, formatAnswer };
+module.exports = { getQuestions, reportQuestion, getQHelpfulness, helpQuestion, addQuestion, addAnswer };

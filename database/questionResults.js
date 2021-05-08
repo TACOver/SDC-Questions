@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const questionResults = new mongoose.Schema({
   _id: Number,
-  "poduct_id": Number,
+  "product_id": Number,
   "body": String,
   "date": Date,
   "asker_name": String,
@@ -26,7 +26,6 @@ const questionResults = new mongoose.Schema({
     "helpful": Number,
     "question_id": Number,
     "reported": Boolean,
-
   },
   ],
 }, {collection: "questionResults"});
