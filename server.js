@@ -1,7 +1,8 @@
 const express = require('express');
+const cors = require('cors');
 const queries = require('./database/queries.js');
-const app = express();
 const format = require('./database/formatters.js');
+const app = express();
 
 let port = process.env.PORT;
 if (port == null || port == "") {
@@ -10,6 +11,7 @@ if (port == null || port == "") {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
