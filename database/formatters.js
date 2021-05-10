@@ -33,17 +33,32 @@ const questionForDb = (body, name, email, product_id, id) => {
   }
 };
 
+const answerForDb2 = (body, name, email, question_id, id) => {
+  const result = {
+    "answers.$._id": Number(id),
+    "answers.$.question_id": Number(question_id),
+    "answers.$.body": body,
+    "answers.$.date": Date.now(),
+    "answers.$.answerer_name": name,
+    "answers.$.answerer_email": email,
+    "answers.$.reported": false,
+    "answers.$.helpful": 0,
+    "answers.$.answer_photos": []
+  };
+  return result;
+};
+
 const answerForDb = (body, name, email, question_id, id) => {
   const result = {
     "_id": Number(id),
-    "answer_photos": [],
-    "question_id": question_id,
+    "question_id": Number(question_id),
     "body": body,
     "date": Date.now(),
     "answerer_name": name,
     "answerer_email": email,
     "reported": false,
-    "helpful": 0
+    "helpful": 0,
+    "answer_photos": []
   };
   return result;
 };

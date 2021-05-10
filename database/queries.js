@@ -76,15 +76,26 @@ const helpAnswer = (answer_id, callback) => {
 };
 
 
-const addAnswer = async (body, name, email, question_id, callback) => {
+const addAnswer = async (req, res) => {
+  body = req.body.body;
+  name = req.body.name;
+  email = req.body.email;
+  question_id = req.body.question_id;
   const id = await Counter.findOneAndUpdate({ "name": "answer_id" }, { $inc: { "value": 1 } }, { useFindAndModify: false })
-  const formatted = format.answerForDb(body, name, email, question_id, id.value);
+  const answer = format.answerForDb(body, name, email, question_id, id.value);
 
-  Result.findByIdAndUpdate(question_id, { $push: { "answers": { formatted } } })
-    .exec(callback);
+  Result.updateOne(
+    { "_id": question_id },
+    { $push: { "answers":  answer } })
+    .then((response) => {
+      res.send(`Answer has been added to question ${question_id}`)
+      console.log('Does this work?');
+    } )
+    .catch((err) => {
+      console.log(err);
+    });
+
+
 };
 
 module.exports = { getQuestions, reportQuestion, helpQuestion, addQuestion, reportAnswer, helpAnswer, addAnswer };
-
-// ANSWER WRITTEN OUT
-// { "answers.$._id": Number(id.value), "answers.$.answer_photos": [], "answers.$.answerer_email": email, "answers.$.answerer_name": name, "answers.$.body": body, "answers.$.date": Date.now(), "answers.$.helpful": 0, "answers.$.question_id": question_id, "answers.$.reported": false }

@@ -115,7 +115,10 @@ app.put('/qa/answers/:answer_id/helpful', (req, res) => {
 
 
 // UPDATES A QUESTION WITH A NEW ANSWER /////////////////////////////////////
-app.put('/qa/answers', (req, res) => {
+app.put('/qa/answers', queries.addAnswer);
+
+// UPDATES A QUESTION WITH A NEW ANSWER /////////////////////////////////////
+app.put('/qa/kim', (req, res) => {
   const body = req.body.body;
   const name = req.body.name;
   const email = req.body.email;
@@ -125,7 +128,7 @@ app.put('/qa/answers', (req, res) => {
    if (err) {
      console.log('ERROR adding an answer from server ', err);
    } else {
-     console.log('POST req successful to add an answer');
+     console.log('PUT req successful to add an answer', data);
      res.send(`Answer has been added to question ${question_id}`);
    }
  });

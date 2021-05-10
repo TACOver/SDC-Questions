@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const questionResults = new mongoose.Schema({
-  _id: {
+  "_id": {
     type: Number,
     required: true,
     auto: true,
@@ -15,6 +15,7 @@ const questionResults = new mongoose.Schema({
   "helpfulness": Number,
   "answers": [
     {
+    "_id": Number,
     "answerer_email": String,
     "answerer_name": String,
     "body": String,
