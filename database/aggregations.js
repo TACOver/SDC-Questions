@@ -1,14 +1,3 @@
-// EXAMPLE IF I WAS DOING THIS IN CODE WITH A FEW DOCS
-const answers = [];
-const photos = [];
-
-photos.forEach((photo) => {
-
-  if (photo.answer_id === answers._id) {
-    answers.photos = photo;
-  }
-})
-
 // ADD AN INDEX on answer_id in photos TO MAKE SEARCH MORE EFFICIENT
 db.photos.createIndex(
   {

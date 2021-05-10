@@ -15,7 +15,6 @@ const questionsForClient = (data) => {
     }
   });
 
-  console.log('This is the final result ', productInfo)
   return productInfo;
 };
 
@@ -33,21 +32,6 @@ const questionForDb = (body, name, email, product_id, id) => {
   }
 };
 
-const answerForDb2 = (body, name, email, question_id, id) => {
-  const result = {
-    "answers.$._id": Number(id),
-    "answers.$.question_id": Number(question_id),
-    "answers.$.body": body,
-    "answers.$.date": Date.now(),
-    "answers.$.answerer_name": name,
-    "answers.$.answerer_email": email,
-    "answers.$.reported": false,
-    "answers.$.helpful": 0,
-    "answers.$.answer_photos": []
-  };
-  return result;
-};
-
 const answerForDb = (body, name, email, question_id, id) => {
   const result = {
     "_id": Number(id),
@@ -62,7 +46,5 @@ const answerForDb = (body, name, email, question_id, id) => {
   };
   return result;
 };
-
-
 
 module.exports = { questionsForClient, questionForDb, answerForDb };

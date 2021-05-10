@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 const Counter = require('./counters.js');
-const Answer = require('./answers.js');
-const Question = require('./questions.js');
-const Photo = require('./photos.js');
 const Result = require('./questionResults.js');
 const format = require('./formatters.js');
 
