@@ -24,55 +24,100 @@ mongoose.connect('mongodb://localhost/qaSchema', { useNewUrlParser: true, useUni
 //////////////////////////////////////////////////////////////////
 
 // QUESTIONS /////////////////////////////////////////////////////
-const getQuestions = (product_id, count, callback) => {
+const getQuestions = (req, res) => {
+  const product_id = req.query.product_id;
+  const count = req.query.count;
+
   Result.find({ "product_id": product_id, "reported": false })
     .sort({ "reported": false })
     .sort({ "helpfulness": -1 })
     .limit(Number(count))
-    .exec(callback);
-
-  console.log('completed getAllQuestions query');
+    .then((response) => {
+      console.log('GET req successful for questions');
+      const formatted = format.questionsForClient(response);
+      res.send(formatted);
+    })
+    .catch((err) => {
+      console.log('ERROR retrieving questions from db ', err);
+    });
 };
 
 
-const reportQuestion = (question_id, callback) => {
+const reportQuestion = (req, res) => {
+  const question_id = Number(req.params.question_id);
+
   Result.updateOne({ "_id": question_id }, { "reported": true })
-    .exec(callback);
+    .then((response) => {
+      console.log('PUT req successful to report a question');
+      res.send(`Question: ${question_id} has been reported`);
+    })
+    .catch((err) => {
+      console.log('ERROR reporting a question ', err);
+    });
 };
 
 
-const helpQuestion = (question_id, callback) => {
+const helpQuestion = (req, res) => {
+  const question_id = Number(req.params.question_id);
+
   Result.updateOne({ "_id": question_id }, { $inc: { "helpfulness": 1 } })
-    .exec(callback);
+    .then((response) => {
+      console.log('PUT req successful to update a question as helpful');
+      res.send(`Question: ${question_id} has been updated`);
+    })
+    .catch((err) => {
+      console.log('ERROR retrieving helpfulness info ', err)
+    });
 };
 
 
-const addQuestion = async (body, name, email, product_id, callback) => {
+const addQuestion = async (req, res) => {
+  const body = req.body.body;
+  const name = req.body.name;
+  const email = req.body.email;
+  const product_id = req.body.product_id;
+
   const id = await Counter.findOneAndUpdate({ "name": "question_id" }, { $inc: { "value": 1 } }, { useFindAndModify: false })
-  const formatted = format.questionForDb(body, name, email, product_id, id.value);
-  const questionToSave = new Result(formatted);
+  const question = format.questionForDb(body, name, email, product_id, id.value);
+  const questionToSave = new Result(question);
 
   questionToSave.save((err, data) => {
     if (err) {
-      console.log(err);
+      console.log('ERROR adding a question from server ', err);
     } else {
-      callback(null, data);
-      console.log('Question successfully added to db ', data);
+      console.log('POST req successful to add a question');
+      res.send(`Question has been added to product ${product_id}`);
     }
   });
 };
 
 
 // ANSWERS /////////////////////////////////////////////////////
-const reportAnswer = (answer_id, callback) => {
+const reportAnswer = (req, res) => {
+  const answer_id = Number(req.params.answer_id);
+
   Result.updateOne({ "answers._id": answer_id }, { "answers.$.reported": true })
-    .exec(callback);
+  .then((response) => {
+    console.log('PUT req successful to report a answer');
+    res.send(`Answer: ${answer_id} has been reported`);
+  })
+  .catch((err) => {
+    console.log('ERROR reporting a answer from server ', err);
+  });
 };
 
 
-const helpAnswer = (answer_id, callback) => {
+const helpAnswer = (req, res) => {
+  const answer_id = Number(req.params.answer_id);
+
   Result.updateOne({ "answers._id": answer_id }, { $inc: { "answers.$.helpful": 1 } })
-    .exec(callback);
+    .then((response) => {
+      console.log('PUT req successful to update a answer as helpful');
+      res.send(`Answer: ${answer_id} has been updated as helpful`);
+    })
+    .catch((err) => {
+      console.log(`ERROR updating ${answer_id} as helpful `, err);
+    });
 };
 
 
@@ -81,6 +126,7 @@ const addAnswer = async (req, res) => {
   name = req.body.name;
   email = req.body.email;
   question_id = req.body.question_id;
+
   const id = await Counter.findOneAndUpdate({ "name": "answer_id" }, { $inc: { "value": 1 } }, { useFindAndModify: false })
   const answer = format.answerForDb(body, name, email, question_id, id.value);
 
@@ -88,14 +134,12 @@ const addAnswer = async (req, res) => {
     { "_id": question_id },
     { $push: { "answers":  answer } })
     .then((response) => {
+      console.log('PUT req successful to add an answer')
       res.send(`Answer has been added to question ${question_id}`)
-      console.log('Does this work?');
-    } )
+    })
     .catch((err) => {
-      console.log(err);
+      console.log(`ERROR adding an answer to question ${question_id}`, err);
     });
-
-
 };
 
 module.exports = { getQuestions, reportQuestion, helpQuestion, addQuestion, reportAnswer, helpAnswer, addAnswer };
