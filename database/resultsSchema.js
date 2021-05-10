@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const questionResults = new mongoose.Schema({
+const resultsSchema = new mongoose.Schema({
   "_id": {
     type: Number,
     required: true,
@@ -32,6 +32,6 @@ const questionResults = new mongoose.Schema({
     }],
 }, {collection: "questionResults"});
 
-const Result = mongoose.model('Result', questionResults);
+const Result = mongoose.model('Result', resultsSchema);
 
 module.exports = Result;

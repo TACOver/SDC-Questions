@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Counter = require('./counters.js');
-const Result = require('./questionResults.js');
+const Result = require('./resultsSchema.js');
 const format = require('./formatters.js');
 
 //////////////////////////////////////////////////////////////////

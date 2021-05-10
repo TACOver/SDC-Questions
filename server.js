@@ -16,23 +16,23 @@ app.listen(port, () => {
 });
 
 
-// SENDS BACK ALL QA DATA FOR A GIVEN PRODUCT_ID AND COUNT ////////
+// SENDS BACK ALL QA DATA FOR A GIVEN PRODUCT_ID AND COUNT //////////////////
 app.get('/qa/questions', queries.getQuestions);
 
-// UPDATES A QUESTION AS REPORTED ////////////////////////////
+// UPDATES A QUESTION AS REPORTED ///////////////////////////////////////////
 app.put('/qa/questions/:question_id/report', queries.reportQuestion);
 
-// UPDATES A QUESTION AS HELPFUL ////////////////////////////
+// UPDATES A QUESTION AS HELPFUL ////////////////////////////////////////////
 app.put('/qa/questions/:question_id/helpful', queries.helpQuestion);
 
-// POSTS A NEW QUESTION /////////////////////////////////////
+// POSTS A NEW QUESTION /////////////////////////////////////////////////////
 app.post('/qa/questions', queries.addQuestion);
 
-// UPDATES AN ANSWER AS REPORTED ////////////////////////////
+// UPDATES AN ANSWER AS REPORTED ///////////////////////////////////////////
 app.put('/qa/answers/:answer_id/report', queries.reportAnswer);
 
-// UPDATES AN ANSWER AS HELPFUL ////////////////////////////
+// UPDATES AN ANSWER AS HELPFUL ////////////////////////////////////////////
 app.put('/qa/answers/:answer_id/helpful', queries.helpAnswer);
 
-// UPDATES A QUESTION WITH A NEW ANSWER /////////////////////////////////////
+// UPDATES A QUESTION WITH A NEW ANSWER ////////////////////////////////////
 app.put('/qa/answers', queries.addAnswer);
