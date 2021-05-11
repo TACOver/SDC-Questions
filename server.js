@@ -13,9 +13,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log('WW is listening on port 3002');
+  });
+}
 
 
 // SENDS BACK ALL QA DATA FOR A GIVEN PRODUCT_ID AND COUNT //////////////////
@@ -38,3 +40,5 @@ app.put('/qa/answers/:answer_id/helpful', queries.helpAnswer);
 
 // UPDATES A QUESTION WITH A NEW ANSWER ////////////////////////////////////
 app.put('/qa/answers', queries.addAnswer);
+
+module.exports = app;
