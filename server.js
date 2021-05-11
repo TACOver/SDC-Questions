@@ -15,10 +15,9 @@ app.use(cors());
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
-    console.log('WW is listening on port 3000');
+    console.log('SDC is listening on port 3000');
   });
 }
-
 
 // SENDS BACK ALL QA DATA FOR A GIVEN PRODUCT_ID AND COUNT //////////////////
 app.get('/qa/questions', queries.getQuestions);

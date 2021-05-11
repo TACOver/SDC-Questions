@@ -123,7 +123,6 @@ const addAnswer = async (req, res) => {
   name = req.body.name;
   email = req.body.email;
   question_id = req.body.question_id;
-  console.log('This is question_id ', question_id);
 
   const id = await Counter.findOneAndUpdate({ "name": "answer_id" }, { $inc: { "value": 1 } }, { useFindAndModify: false })
   const answer = format.answerForDb(body, name, email, question_id, id.value);
