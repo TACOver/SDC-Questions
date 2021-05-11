@@ -1,0 +1,27 @@
+config:
+  target: "https://localhost:3000/qa"
+  phases:
+    - duration: 60
+      arrivalRate: 50
+      name: Warm up
+    - duration: 60
+      arrivalRate: 10
+      rampTo: 100
+      name: Ramp up load
+    - duration: 60
+      arrivalRate: 100
+      name: Sustained load
+  payload:
+    path: "./data/questions.csv"
+    fields:
+      - "_id"
+
+scenarios:
+  - name: "Read, report and post a question"
+    flow:
+      - get:
+          url: "/questions/{{ _id }}/5"
+          json:
+            kw: "{{ keyword }}"
+      - put:
+          url: "/questions/{{ _id }}/helpful"

@@ -15,7 +15,7 @@ app.use(cors());
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
-    console.log('WW is listening on port 3002');
+    console.log('WW is listening on port 3000');
   });
 }
 

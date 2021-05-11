@@ -69,6 +69,8 @@ describe('Question service tests', () => {
     await request(app)
       .put(putNewAnswer)
       .send(body)
-      .expect(200)
+      .then((response) => {
+        expect(200);
+      })
   });
 });
