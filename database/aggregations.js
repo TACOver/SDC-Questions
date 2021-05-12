@@ -1,9 +1,9 @@
 // ADD AN INDEX on answer_id in photos TO MAKE SEARCH MORE EFFICIENT
-db.photos.createIndex(
-  {
-    "answer_id": 1
-  }
-)
+db.photos.createIndex({ "answer_id": 1 })
+
+db.answers.createIndex({"_id": 1})
+
+db.questions.createIndex({ "_id": 1 })
 
 // ADD PHOTOS ARR TO ANSWERS USING INDEX
 db.answers.aggregate(
